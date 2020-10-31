@@ -112,7 +112,7 @@ public class IPLAnalyser {
 		}
 	}
 
-	public String getPlayersWithTopSRandAverage() throws IPLException {
+	public String getPlayersWithTopStrikeRateandAverage() throws IPLException {
 		try (Writer writer = new FileWriter("./src/test/resources/IPLBattingSRandAvg.json")) {
 			if (IPLRunCSVList == null || IPLRunCSVList.size() == 0) {
 				throw new IPLException("No data", IPLException.ExceptionType.NO_DATA);
