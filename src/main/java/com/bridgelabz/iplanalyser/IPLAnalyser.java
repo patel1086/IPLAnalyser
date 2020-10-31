@@ -76,23 +76,40 @@ public class IPLAnalyser {
 			throw new IPLException(e.getMessage(), IPLException.ExceptionType.FILE_OR_HEADER_PROBLEM);
 		}
 	}
-	
-	public String getPlayersWithTopBoundaries() throws IPLException {
-        try (Writer writer = new FileWriter("./src/test/resources/IPLBattingBoundary.json")) {
-            if (IPLRunCSVList == null || IPLRunCSVList.size() == 0) {
-                throw new IPLException("No data", IPLException.ExceptionType.NO_DATA);
-            }
-            Comparator<IPLRuns> iplComparator = Comparator.comparing(census -> census.fours+census.sixes);
-            this.sortInDescendOrder(iplComparator);
-            String json = new Gson().toJson(IPLRunCSVList);
-            Gson gson = new GsonBuilder().create();
-            gson.toJson(IPLRunCSVList, writer);
-            return json;
 
-        } catch (RuntimeException | IOException e) {
-            throw new IPLException(e.getMessage(),
-                    IPLException.ExceptionType.FILE_OR_HEADER_PROBLEM);
-        }
+	public String getPlayersWithTopBoundaries() throws IPLException {
+		try (Writer writer = new FileWriter("./src/test/resources/IPLBattingBoundary.json")) {
+			if (IPLRunCSVList == null || IPLRunCSVList.size() == 0) {
+				throw new IPLException("No data", IPLException.ExceptionType.NO_DATA);
+			}
+			Comparator<IPLRuns> iplComparator = Comparator.comparing(census -> census.fours + census.sixes);
+			this.sortInDescendOrder(iplComparator);
+			String json = new Gson().toJson(IPLRunCSVList);
+			Gson gson = new GsonBuilder().create();
+			gson.toJson(IPLRunCSVList, writer);
+			return json;
+
+		} catch (RuntimeException | IOException e) {
+			throw new IPLException(e.getMessage(), IPLException.ExceptionType.FILE_OR_HEADER_PROBLEM);
+		}
+	}
+
+	public String getPlayersWithTopStrikeRateandBoundaryBoth() throws IPLException {
+		try (Writer writer = new FileWriter("./src/test/resources/IPLBattingSRandBoundary.json")) {
+			if (IPLRunCSVList == null || IPLRunCSVList.size() == 0) {
+				throw new IPLException("No data", IPLException.ExceptionType.NO_DATA);
+			}
+			Comparator<IPLRuns> iplComparator = Comparator.comparing(IPLRuns::getSixes).thenComparing(ipl -> ipl.fours)
+					.thenComparing(census -> census.strikeRate);
+			this.sortInDescendOrder(iplComparator);
+			String json = new Gson().toJson(IPLRunCSVList);
+			Gson gson = new GsonBuilder().create();
+			gson.toJson(IPLRunCSVList, writer);
+			return json;
+
+		} catch (RuntimeException | IOException e) {
+			throw new IPLException(e.getMessage(), IPLException.ExceptionType.FILE_OR_HEADER_PROBLEM);
+		}
 	}
 
 	private void sortInDescendOrder(Comparator<IPLRuns> IPLComparator) {
