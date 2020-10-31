@@ -131,7 +131,7 @@ public class IPLAnalyser {
 	}
 	
 	public String getPlayersWithHighestRunsAndAverage() throws IPLException {
-        try (Writer writer = new FileWriter("./src/test/resources/IPLBattingMaxRuns.json")) {
+        try (Writer writer = new FileWriter("./src/test/resources/IPLBattingMaxRunsAndAvg.json")) {
             if (IPLRunCSVList == null || IPLRunCSVList.size() == 0) {
                 throw new IPLException("No data", IPLException.ExceptionType.NO_DATA);
             }

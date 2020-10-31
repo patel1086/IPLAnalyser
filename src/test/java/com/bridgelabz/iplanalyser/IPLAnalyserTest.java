@@ -84,7 +84,7 @@ public class IPLAnalyserTest {
 	}
 
 	@Test
-	public void givenDataShouldReturnBatsmanWithHighestAvgAndSR() {
+	public void givenIPLRunCSVFile_ShouldReturnBatsMan_WithHighestStrikeRateAndAverage() {
 		try {
 			IPLAnalyser iplAnalyser = new IPLAnalyser();
 			iplAnalyser.loadIPLRunsData(IPL_RUN_CSV_FILE_PATH);
@@ -96,4 +96,17 @@ public class IPLAnalyserTest {
 			e.printStackTrace();
 		}
 	}
+	
+	 @Test
+	    public void givenIPLRunCSVFile_ShouldReturnBatsMan_WithHighestRunsAndAvearge() {
+	        try {
+	            IPLAnalyser iplAnalyser = new IPLAnalyser();
+	            iplAnalyser.loadIPLRunsData(IPL_RUN_CSV_FILE_PATH);
+	            String sortedIPLData = iplAnalyser.getPlayersWithHighestRunsAndAverage();
+	            IPLRuns[] iplRuns = new Gson().fromJson(sortedIPLData, IPLRuns[].class);
+	            Assert.assertEquals("David Warner", iplRuns[0].player);
+	        } catch (IPLException e) {
+	            e.printStackTrace();
+	        }
+	    }
 }
