@@ -117,8 +117,7 @@ public class IPLAnalyser {
 			if (IPLRunCSVList == null || IPLRunCSVList.size() == 0) {
 				throw new IPLException("No data", IPLException.ExceptionType.NO_DATA);
 			}
-			Comparator<IPLRuns> iplComparator = Comparator.comparing(IPLRuns::getAvg)
-					.thenComparing(ipl -> ipl.strikeRate);
+			Comparator<IPLRuns> iplComparator = Comparator.comparing(IPLRuns::getAvg).thenComparing(ipl -> ipl.strikeRate);
 			this.sortInDescendOrder(iplComparator);
 			String json = new Gson().toJson(IPLRunCSVList);
 			Gson gson = new GsonBuilder().create();
@@ -146,6 +145,23 @@ public class IPLAnalyser {
             throw new IPLException(e.getMessage(),
                     IPLException.ExceptionType.FILE_OR_HEADER_PROBLEM);
         }
+	}
+	
+	public String getPlayersWithTopBowlingAverages() throws IPLException {
+		try (Writer writer = new FileWriter("./src/test/resources/IPLBowlingAvg.json")) {
+			if (IPLWicketsCSVList == null || IPLWicketsCSVList.size() == 0) {
+				throw new IPLException("No data", IPLException.ExceptionType.NO_DATA);
+			}
+			Comparator<IPLRuns> IPLComparator = Comparator.comparing(ipl -> ipl.avg);
+			this.sortInDescendOrder(IPLComparator);
+			String json = new Gson().toJson(IPLWicketsCSVList);
+			Gson gson = new GsonBuilder().create();
+			gson.toJson(IPLWicketsCSVList, writer);
+			return json;
+
+		} catch (RuntimeException | IOException e) {
+			throw new IPLException(e.getMessage(), IPLException.ExceptionType.FILE_OR_HEADER_PROBLEM);
+		}
 	}
 
 	private void sortInDescendOrder(Comparator<IPLRuns> IPLComparator) {
