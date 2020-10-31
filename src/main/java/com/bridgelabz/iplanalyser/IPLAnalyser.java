@@ -49,7 +49,7 @@ public class IPLAnalyser {
 				throw new IPLException("No data", IPLException.ExceptionType.NO_DATA);
 			}
 			Comparator<IPLRuns> IPLComparator = Comparator.comparing(census -> census.avg);
-			this.sortInDesendOrder(IPLComparator);
+			this.sortInDescendOrder(IPLComparator);
 			String json = new Gson().toJson(IPLRunCSVList);
 			Gson gson = new GsonBuilder().create();
 			gson.toJson(IPLRunCSVList, writer);
@@ -60,7 +60,7 @@ public class IPLAnalyser {
 		}
 	}
 
-	private void sortInDesendOrder(Comparator<IPLRuns> IPLComparator) {
+	private void sortInDescendOrder(Comparator<IPLRuns> IPLComparator) {
 		for (int i = 0; i < IPLRunCSVList.size() - 1; i++) {
 			for (int j = 0; j < IPLRunCSVList.size() - i - 1; j++) {
 				IPLRuns census1 = IPLRunCSVList.get(j);
