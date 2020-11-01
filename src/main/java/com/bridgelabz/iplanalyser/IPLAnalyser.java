@@ -180,6 +180,23 @@ public class IPLAnalyser {
 			throw new IPLException(e.getMessage(), IPLException.ExceptionType.FILE_OR_HEADER_PROBLEM);
 		}
 	}
+	
+	public String getPlayersWithHighestCenturiesAndFifties() throws IPLException {
+		try (Writer writer = new FileWriter("./src/test/resources/IPLBattingMax100sAnd50s.json")) {
+			if (IPLRunCSVList == null || IPLRunCSVList.size() == 0) {
+				throw new IPLException("No data", IPLException.ExceptionType.NO_DATA);
+			}
+			Comparator<IPLRuns> iplComparator = Comparator.comparing(IPLRuns::getHundreds).thenComparing(ipl -> ipl.fifties);
+			this.sortInDescendOrder(iplComparator);
+			String json = new Gson().toJson(IPLRunCSVList);
+			Gson gson = new GsonBuilder().create();
+			gson.toJson(IPLRunCSVList, writer);
+			return json;
+
+		} catch (RuntimeException | IOException e) {
+			throw new IPLException(e.getMessage(), IPLException.ExceptionType.FILE_OR_HEADER_PROBLEM);
+		}
+	}
 
 	public String getPlayersWithHighestWkts() throws IPLException {
 		try (Writer writer = new FileWriter("./src/test/resources/IPLBowlingWkts.json")) {
@@ -320,6 +337,17 @@ public class IPLAnalyser {
 		}
 		return null;
 	}
+	
+	public String getBestAvgWithZeroCenturyAndFifty(IPLRuns[] runs, IPLRuns[] average){
+        for(int i=0;i<runs.length;i++)
+        {
+            if(runs[runs.length-1-i].player.equals(average[i].player))
+            {
+                return  average[i].player;
+            }
+        }
+        return null;
+    }
 
 	private void sortInDescendOrderWkts(Comparator<IPLWickets> IPLComparator) {
 		for (int i = 0; i < IPLWicketsCSVList.size() - 1; i++) {
