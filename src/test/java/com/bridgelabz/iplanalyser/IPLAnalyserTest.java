@@ -199,4 +199,17 @@ public class IPLAnalyserTest {
         String bestAvg=iplAnalyser.getBestAvg(run,wickets);
         Assert.assertEquals("Ben Cutting", bestAvg);
     }
+	
+	@Test
+	public void givenIPLRunCSVFile_ShouldReturnBatsMan_WithHighestCenturiesAndAvg() {
+		try {
+			IPLAnalyser iplAnalyser = new IPLAnalyser();
+			iplAnalyser.loadIPLRunsData(IPL_RUN_CSV_FILE_PATH);
+			String sortedIPLData = iplAnalyser.getPlayersWithHighestCenturiesAndBestAvg();
+			IPLRuns[] iplRuns = new Gson().fromJson(sortedIPLData, IPLRuns[].class);
+			Assert.assertEquals("David Warner", iplRuns[0].player);
+		} catch (IPLException e) {
+			e.printStackTrace();
+		}
+	}
 }
