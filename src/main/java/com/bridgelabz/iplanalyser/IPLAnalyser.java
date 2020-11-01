@@ -260,6 +260,15 @@ public class IPLAnalyser {
 		}
 		return null;
 	}
+	
+	public String getBestAllRiunder(IPLRuns[] run,IPLWickets[] wickets) {
+		for (int i = 0; i < run.length; i++) {
+			if (run[i].player.equals(wickets[i].player)) {
+				return run[i].player;
+			}
+		}
+		return null;
+	}
 
 	private void sortInDescendOrderWkts(Comparator<IPLWickets> IPLComparator) {
 		for (int i = 0; i < IPLWicketsCSVList.size() - 1; i++) {
