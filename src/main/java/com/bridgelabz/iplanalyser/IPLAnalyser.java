@@ -42,7 +42,24 @@ public class IPLAnalyser {
 			throw new IPLException(e.getMessage(), IPLException.ExceptionType.FILE_OR_HEADER_PROBLEM);
 		}
 	}
+	
+	public String getPlayersWithHighestRun() throws IPLException {
+		try (Writer writer = new FileWriter("./src/test/resources/IPLBattingRun.json")) {
+			if (IPLRunCSVList == null || IPLRunCSVList.size() == 0) {
+				throw new IPLException("No data", IPLException.ExceptionType.NO_DATA);
+			}
+			Comparator<IPLRuns> IPLComparator = Comparator.comparing(census -> census.runs);
+			this.sortInDescendOrder(IPLComparator);
+			String json = new Gson().toJson(IPLRunCSVList);
+			Gson gson = new GsonBuilder().create();
+			gson.toJson(IPLRunCSVList, writer);
+			return json;
 
+		} catch (RuntimeException | IOException e) {
+			throw new IPLException(e.getMessage(), IPLException.ExceptionType.FILE_OR_HEADER_PROBLEM);
+		}
+	}
+	
 	public String getPlayersWithTopAverages() throws IPLException {
 		try (Writer writer = new FileWriter("./src/test/resources/IPLBattingAvg.json")) {
 			if (IPLRunCSVList == null || IPLRunCSVList.size() == 0) {
@@ -140,6 +157,23 @@ public class IPLAnalyser {
 			String json = new Gson().toJson(IPLRunCSVList);
 			Gson gson = new GsonBuilder().create();
 			gson.toJson(IPLRunCSVList, writer);
+			return json;
+
+		} catch (RuntimeException | IOException e) {
+			throw new IPLException(e.getMessage(), IPLException.ExceptionType.FILE_OR_HEADER_PROBLEM);
+		}
+	}
+	
+	public String getPlayersWithHighestWkts() throws IPLException {
+		try (Writer writer = new FileWriter("./src/test/resources/IPLBowlingWkts.json")) {
+			if (IPLWicketsCSVList == null || IPLWicketsCSVList.size() == 0) {
+				throw new IPLException("No data", IPLException.ExceptionType.NO_DATA);
+			}
+			Comparator<IPLWickets> IPLComparator = Comparator.comparing(ipl -> ipl.wickets);
+			this.sortInDescendOrderWkts(IPLComparator);
+			String json = new Gson().toJson(IPLWicketsCSVList);
+			Gson gson = new GsonBuilder().create();
+			gson.toJson(IPLWicketsCSVList, writer);
 			return json;
 
 		} catch (RuntimeException | IOException e) {

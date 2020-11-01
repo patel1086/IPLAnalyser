@@ -174,7 +174,6 @@ public class IPLAnalyserTest {
 		}
 	}
 	
-
 	@Test
     public void givenIPLRunAndWicketsCSVFile_ShouldReturnPlayer_WithBestBowlingAndBattingAvg() throws IPLException {
         IPLAnalyser iplAnalyser = new IPLAnalyser();
@@ -186,5 +185,18 @@ public class IPLAnalyserTest {
         IPLWickets[] wickets = new Gson().fromJson(sorted, IPLWickets[].class);
         String bestAvg=iplAnalyser.getBestAvg(average,wickets);
         Assert.assertEquals("Marcus Stoinis", bestAvg);
+    }
+	
+	@Test
+    public void givenIPLRunAndWicketsCSVFile_ShouldReturnPlayer_WithHighestRunAndWkts() throws IPLException {
+        IPLAnalyser iplAnalyser = new IPLAnalyser();
+        iplAnalyser.loadIPLRunsData(IPL_RUN_CSV_FILE_PATH);
+        String sortedBat = iplAnalyser.getPlayersWithHighestRun();
+        IPLRuns[] run = new Gson().fromJson(sortedBat, IPLRuns[].class);
+        iplAnalyser.loadIPLWicketsData(IPL_WICKET_CSV_FILE_PATH);
+        String sorted = iplAnalyser.getPlayersWithHighestWkts();
+        IPLWickets[] wickets = new Gson().fromJson(sorted, IPLWickets[].class);
+        String bestAvg=iplAnalyser.getBestAvg(run,wickets);
+        Assert.assertEquals("Ben Cutting", bestAvg);
     }
 }
