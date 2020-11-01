@@ -147,4 +147,17 @@ public class IPLAnalyserTest {
 			e.printStackTrace();
 		}
 	}
+	
+	@Test
+	public void givenIPLWicketsCSVFile_ShouldReturnBowler_WithToptStrikeRateAndMost5Wor4W() {
+		try {
+			IPLAnalyser iplAnalyser = new IPLAnalyser();
+			iplAnalyser.loadIPLWicketsData(IPL_WICKET_CSV_FILE_PATH);
+			String sortedIPLData = iplAnalyser.getPlayersWithBestStrikeRateWith5Wor4W();
+			IPLWickets[] iplRuns = new Gson().fromJson(sortedIPLData, IPLWickets[].class);
+			Assert.assertEquals("Krishnappa Gowtham", iplRuns[0].player);
+		} catch (IPLException e) {
+			e.printStackTrace();
+		}
+	}
 }
