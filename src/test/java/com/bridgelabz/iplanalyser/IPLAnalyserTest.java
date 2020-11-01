@@ -162,13 +162,13 @@ public class IPLAnalyserTest {
 	}
 	
 	@Test
-	public void givenIPLWicketsCSVFile_ShouldReturnBowler_WithBestAvgAndSR() {
+	public void givenIPLWicketsCSVFile_ShouldReturnBowler_WithHighestWktsAndBestAvg() {
 		try {
 			IPLAnalyser iplAnalyser = new IPLAnalyser();
 			iplAnalyser.loadIPLWicketsData(IPL_WICKET_CSV_FILE_PATH);
-			String sortedIPLData = iplAnalyser.getPlayersWithBestBowlingAvgAndSR();
+			String sortedIPLData = iplAnalyser.getPlayersWithHighestWktsandBestAvg();
 			IPLWickets[] iplRuns = new Gson().fromJson(sortedIPLData, IPLWickets[].class);
-			Assert.assertEquals("Krishnappa Gowtham", iplRuns[0].player);
+			Assert.assertEquals("Imran Tahir", iplRuns[0].player);
 		} catch (IPLException e) {
 			e.printStackTrace();
 		}
