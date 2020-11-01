@@ -180,6 +180,23 @@ public class IPLAnalyser {
 			throw new IPLException(e.getMessage(), IPLException.ExceptionType.FILE_OR_HEADER_PROBLEM);
 		}
 	}
+	
+	public String getPlayersWithTopBowlingEconomyRate() throws IPLException {
+		try (Writer writer = new FileWriter("./src/test/resources/IPLBowlingEconomyRate.json")) {
+			if (IPLWicketsCSVList == null || IPLWicketsCSVList.size() == 0) {
+				throw new IPLException("No data", IPLException.ExceptionType.NO_DATA);
+			}
+			Comparator<IPLWickets> IPLComparator = Comparator.comparing(ipl -> ipl.economy);
+			this.sortInDescendOrderWkts(IPLComparator);
+			String json = new Gson().toJson(IPLWicketsCSVList);
+			Gson gson = new GsonBuilder().create();
+			gson.toJson(IPLWicketsCSVList, writer);
+			return json;
+
+		} catch (RuntimeException | IOException e) {
+			throw new IPLException(e.getMessage(), IPLException.ExceptionType.FILE_OR_HEADER_PROBLEM);
+		}
+	}
 
 	private void sortInDescendOrderWkts(Comparator<IPLWickets> IPLComparator) {
 		for (int i = 0; i < IPLWicketsCSVList.size() - 1; i++) {
