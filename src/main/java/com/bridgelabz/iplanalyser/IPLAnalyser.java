@@ -76,7 +76,7 @@ public class IPLAnalyser {
 			throw new IPLException(e.getMessage(), IPLException.ExceptionType.FILE_OR_HEADER_PROBLEM);
 		}
 	}
-
+	
 	public String getPlayersWithTopStrikeRate() throws IPLException {
 		try (Writer writer = new FileWriter("./src/test/resources/IPLBattingStrikeRate.json")) {
 			if (IPLRunCSVList == null || IPLRunCSVList.size() == 0) {
@@ -164,6 +164,23 @@ public class IPLAnalyser {
 		}
 	}
 	
+	public String getPlayersWithHighestCenturiesAndBestAvg() throws IPLException {
+		try (Writer writer = new FileWriter("./src/test/resources/IPLBattingCenturiesAndAvg.json")) {
+			if (IPLRunCSVList == null || IPLRunCSVList.size() == 0) {
+				throw new IPLException("No data", IPLException.ExceptionType.NO_DATA);
+			}
+			Comparator<IPLRuns> iplComparator = Comparator.comparing(IPLRuns::getHundreds).thenComparing(ipl -> ipl.avg);
+			this.sortInDescendOrder(iplComparator);
+			String json = new Gson().toJson(IPLRunCSVList);
+			Gson gson = new GsonBuilder().create();
+			gson.toJson(IPLRunCSVList, writer);
+			return json;
+
+		} catch (RuntimeException | IOException e) {
+			throw new IPLException(e.getMessage(), IPLException.ExceptionType.FILE_OR_HEADER_PROBLEM);
+		}
+	}
+
 	public String getPlayersWithHighestWkts() throws IPLException {
 		try (Writer writer = new FileWriter("./src/test/resources/IPLBowlingWkts.json")) {
 			if (IPLWicketsCSVList == null || IPLWicketsCSVList.size() == 0) {
@@ -295,7 +312,7 @@ public class IPLAnalyser {
 		return null;
 	}
 	
-	public String getBestAllRiunder(IPLRuns[] run,IPLWickets[] wickets) {
+	public String getBestAllRounder(IPLRuns[] run,IPLWickets[] wickets) {
 		for (int i = 0; i < run.length; i++) {
 			if (run[i].player.equals(wickets[i].player)) {
 				return run[i].player;
