@@ -174,4 +174,17 @@ public class IPLAnalyserTest {
 		}
 	}
 	
+
+	@Test
+    public void givenIPLRunAndWicketsCSVFile_ShouldReturnPlayer_WithBestBowlingAndBattingAvg() throws IPLException {
+        IPLAnalyser iplAnalyser = new IPLAnalyser();
+        iplAnalyser.loadIPLRunsData(IPL_RUN_CSV_FILE_PATH);
+        String sortedBat = iplAnalyser.getPlayersWithTopAverages();
+        IPLRuns[] average = new Gson().fromJson(sortedBat, IPLRuns[].class);
+        iplAnalyser.loadIPLWicketsData(IPL_WICKET_CSV_FILE_PATH);
+        String sorted = iplAnalyser.getPlayersWithTopBowlingAverages();
+        IPLWickets[] wickets = new Gson().fromJson(sorted, IPLWickets[].class);
+        String bestAvg=iplAnalyser.getBestAvg(average,wickets);
+        Assert.assertEquals("Marcus Stoinis", bestAvg);
+    }
 }
