@@ -160,4 +160,17 @@ public class IPLAnalyserTest {
 			e.printStackTrace();
 		}
 	}
+	
+	@Test
+	public void givenIPLWicketsCSVFile_ShouldReturnBowler_WithBestAvgAndSR() {
+		try {
+			IPLAnalyser iplAnalyser = new IPLAnalyser();
+			iplAnalyser.loadIPLWicketsData(IPL_WICKET_CSV_FILE_PATH);
+			String sortedIPLData = iplAnalyser.getPlayersWithBestBowlingAvgAndSR();
+			IPLWickets[] iplRuns = new Gson().fromJson(sortedIPLData, IPLWickets[].class);
+			Assert.assertEquals("Krishnappa Gowtham", iplRuns[0].player);
+		} catch (IPLException e) {
+			e.printStackTrace();
+		}
+	}
 }
